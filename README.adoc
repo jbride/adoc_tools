@@ -1,0 +1,48 @@
+:data-uri:
+:scrollbar:
+:toc-placement: preamble
+:toc: manual
+:asciidoc: link:http://www.methods.co.nz/asciidoc/[asciidoc]
+
+= ADOC Tools
+
+== asciidoc build utility
+
+This project provides a utility called `adoc_build.sh`.
+Its purpose is to provide the ability to quickly build an asciidoc project that makes use of `AllSlides.txt`.
+
+This utility could prove to be useful for the following reasons:
+
+. Ensure accuracy of AllSlides.txt
++
+ie; do all the files referenced in the AllSlides.txt actually exist?
+If not, the asciidoc utility will indicate errors during the build
+. View flow of the generated asciidoc project
+. Detect issues with missing images in asciidoc project
+. Detect issues with asciidoc syntax in any of the files of the project
+
+=== Pre-requisite
+
+. *{asciidoc}* utility installed on your local workstation
+. *git*
+
+=== Procedure
+
+. Clone this project
++
+Doing so will create a directory called: `adoc_tools`.
+. Edit the values of the *ADOC_TOOLS_HOME* and *OUTDIR* variables
+. Add the `adoc_build.sh` utility to your $PATH environment variable.
+. change directory to the parent directory of your adoc project with an `AllSlides.txt`
+. execute: `adoc_build.sh <name_of_adoc_project> -maxWidth=1366px -slidy
+. In your browser, navigate to $OUTDIR and review the generated html
+
+=== Example Project
+Included is a sample project.
+
+After having added the `adoc_build.sh` script to your path, attempt to build this sample project as follows:
+
+. cd /path/to/cloned/adoc_tools
+. adoc_build.sh hello_adoc -slidy
+
+== divider page

@@ -1,0 +1,2 @@
+include::hello_adoc.adoc[]
+include::goodbye_adoc.adoc[]
