@@ -31,10 +31,10 @@ If not, the asciidoc utility will indicate errors during the build
 . Clone this project
 +
 Doing so will create a directory called: `adoc_tools`.
-. Edit the values of the *ADOC_TOOLS_HOME* and *OUTDIR* variables
+. Edit the values of the *ADOC_TOOLS_HOME* and *OUTDIR* variables in the `bin/adoc_build.sh` utility.
 . Add the `adoc_build.sh` utility to your $PATH environment variable.
-. change directory to the parent directory of your adoc project with an `AllSlides.txt`
-. execute: `adoc_build.sh <name_of_adoc_project> -maxWidth=1366px -slidy
+. Change directory to the parent directory of your adoc project with an `AllSlides.txt`
+. Execute: `adoc_build.sh <name_of_adoc_project>`
 . In your browser, navigate to $OUTDIR and review the generated html
 
 === Example Project
@@ -43,6 +43,7 @@ Included is a sample project.
 After having added the `adoc_build.sh` script to your path, attempt to build this sample project as follows:
 
 . cd /path/to/cloned/adoc_tools
-. adoc_build.sh hello_adoc -slidy
-
-== divider page
+. execute: `adoc_build.sh hello_adoc`
+. In your browser, navigate to $OUTDIR and review the generated html
++
+Press the space bar to forward to the next page
