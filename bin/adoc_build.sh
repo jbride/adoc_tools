@@ -7,18 +7,18 @@ ADOC_TOOLS_HOME=/u01/projects/adoc_tools
 OUTDIR=/tmp/generated
 
 
-echo "############################################################################################################################### "
-echo "  Allslides per module are put into a single slide show styled page."	
-echo "############################################################################################################################### "
 
 for var in $@
 do
     case $var in
         -maxWidth=*)
-            -maxWidth=`echo $var | cut -f2 -d\=`
+            maxWidth=`echo $var | cut -f2 -d\=`
             ;;
         -html5)
             html5=html5
+            ;;
+        -singleFile=*)
+           singleFile=`echo $var | cut -f2 -d\=`
             ;;
     esac
 done
@@ -27,14 +27,12 @@ if [ "x$maxWidth" = "x" ]; then
         maxWidth=1024px
 fi
 
-
 ASCIIDOC_LMS="asciidoc -f $ADOC_TOOLS_HOME/conf/html5.conf -b html5 -a max-width=$maxWidth -a icons -a encoding=ISO-8859-1"
 ASCIIDOC_ILT="asciidoc -f $ADOC_TOOLS_HOME/conf/slidy.conf -b html5 -a max-width=$maxWidth -a icons"
 
-DIRNAME=`basename $@`
 TEMP_OUTDIR=target
 
-function process_asciidoc {
+function process_module {
     rm -rf "$OUTDIR/$DIRNAME/$TEMP_OUTDIR"
     mkdir -p "$OUTDIR/$DIRNAME/$TEMP_OUTDIR"
     for INPUT in  $@ ; do
@@ -53,14 +51,31 @@ function process_asciidoc {
             echo "\n################## Processing directory $INPUT #####################"
 	    DIRNAME=$INPUT
     	    DIRNAME=`echo "$DIRNAME" | tr -d ' '`
-            process_asciidoc `ls $INPUT/*`
+            process_module `ls $INPUT/*`
         fi
     done
 }
 
-process_asciidoc $@
+# Useful for transforming a single *.adoc file
+# adoc_build.sh -singleFile=OPEN_Course_Developer_Guide.adoc
+function process_single {
+    mkdir -p $OUTDIR/$DIRNAME
+    FILENAME=`basename $singleFile .adoc`
+    echo "single file = $singleFile ; FILENAME = $FILENAME"
+    $ASCIIDOC_LMS --out-file $OUTDIR/$DIRNAME/$FILENAME.html $singleFile;
+    echo "	BUILD COMPLETE:  The output of this build can be found at:  $OUTDIR/$DIRNAME/$FILENAME.html" 
+}
 
-echo "############################################################################################################################### "
-echo "	BUILD COMPLETE:  The output of this build can be found in the $OUTDIR/$DIRNAME/$TEMP_OUTDIR directory."
-echo "############################################################################################################################### "
+
+if [ "x$singleFile" = "x" ]; then
+    echo "############################################################################################################################### "
+    echo "  Allslides per module are put into a single slide show styled page."	
+    DIRNAME=`basename $@`
+    process_module $@
+    echo "	BUILD COMPLETE:  The output of this build can be found in the $OUTDIR/$DIRNAME/$TEMP_OUTDIR directory."
+    echo "############################################################################################################################### "
+else
+    process_single
+fi
+
 
